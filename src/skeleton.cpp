@@ -85,8 +85,6 @@ const char Output::body[] =
 "    yyssp     = yyss;                                                       \n"
 "    yyvsp     = yyvs;                                                       \n"
 "    *yyssp    = yystate = 0;                                                \n"
-"                                                                            \n"
-"    ExtraInit(pExtraData);                                                  \n"
 "}                                                                           \n"
 "                                                                            \n"
 "                                                                            \n"
