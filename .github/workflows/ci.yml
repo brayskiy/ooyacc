@@ -1,10 +1,18 @@
 name: CI
 
+# Flow: feature -> develop -> master.
+#
 # Rule 2:
-#   - On pull requests targeting the default branch, tests run against the
-#     work branch (merged with the base) so a PR cannot be merged red.
-#   - On push to the default branch (i.e. after a merge), tests run again to
+#   - On pull requests targeting develop or master, tests run against the work
+#     branch (merged with the base) so a PR cannot be merged red.
+#   - On push to develop or master (i.e. after a merge), tests run again to
 #     confirm the branch is green post-merge.
+#
+# Release versioning:
+#   - After tests pass on a push to master (i.e. every merge into the release
+#     branch), the `release` job promotes the version to YY.WW.BB and
+#     publishes it as a git tag + GitHub Release.
+#     See .github/ci-and-branch-policy.md.
 #
 # Rule 1 (default branch is updated through PRs only, and only when this
 # workflow is green) is enforced by branch protection, not by this file.
@@ -12,9 +20,13 @@ name: CI
 
 on:
   push:
-    branches: [master, main]
+    branches: [master, main, develop]
   pull_request:
-    branches: [master, main]
+    branches: [master, main, develop]
+
+# Least privilege by default; the release job opts into write access.
+permissions:
+  contents: read
 
 # Cancel superseded runs on the same ref to save CI minutes.
 concurrency:
@@ -39,3 +51,65 @@ jobs:
 
       - name: Run test suite
         run: make test
+
+  release:
+    name: Promote version
+    needs: test                     # only release if tests pass
+    # Only on a merge into the release branch (master/main), never on PRs or
+    # pushes to develop.
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write               # create tags and releases
+    steps:
+      - name: Check out full history and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Compute next version (YY.WW.BB)
+        id: ver
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+
+          # Skip if this commit is already released (e.g. a re-run).
+          if git tag --points-at HEAD | grep -qE '^[0-9]{2}\.[0-9]{2}\.[0-9]+$'; then
+            existing=$(git tag --points-at HEAD | grep -E '^[0-9]{2}\.[0-9]{2}\.[0-9]+$' | head -1)
+            echo "Commit already tagged $existing; skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # ISO year/week keep YY and WW consistent across the year boundary.
+          YY=$(date -u +%G); YY=${YY: -2}
+          WW=$(date -u +%V)
+          prefix="${YY}.${WW}"
+
+          # BB continues within the same week, else restarts at 01.
+          last=$(git tag -l "${prefix}.*" | sort -t. -k3 -n | tail -1 || true)
+          if [ -z "$last" ]; then
+            bb=1
+          else
+            bb=$(( 10#${last##*.} + 1 ))
+          fi
+          version=$(printf '%s.%02d' "$prefix" "$bb")
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "Promoting to $version"
+
+      - name: Create tag and GitHub release
+        if: steps.ver.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="${{ steps.ver.outputs.version }}"
+          git tag "$version"
+          git push origin "$version"
+          gh release create "$version" \
+            --title "$version" \
+            --target "${{ github.sha }}" \
+            --generate-notes
