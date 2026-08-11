@@ -1,0 +1,17 @@
+def f(x) = x^2;
+intgauss3(f, 0, 1);
+def g(x) = x^3;
+intgauss3(g, 0, 2);
+def p(x) = 3*x^2 + 2*x + 1;
+intgauss3(p, 0, 1);
+def h(x) = x^4;
+intgauss3(h, -1, 1);
+def poly(x) = x^5;
+intgauss3(poly, 0, 1);
+def sq(x) = x*x;
+def quad(x) = sq(x) + 1;
+quad(3);
+intgauss3(quad, 0, 3);
+def s(x) = sin(x);
+intgauss3(s, 0, 3.141592653589793);
+f(5);
