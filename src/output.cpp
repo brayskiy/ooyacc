@@ -841,8 +841,15 @@ void Output::output_defines(void)
 	if (union_file == NULL) open_error(union_file_name);
 	while ((c = getc(union_file)) != EOF)
 	    putc(c, defines_file);
-	fprintf(defines_file, " YYSTYPE;\n\n"); 
+	fprintf(defines_file, " YYSTYPE;\n\n");
     }
+
+    /*  Emit the default YYSTYPE into the header before the class body, which  */
+    /*  references it.  output_stype() writes the same guarded typedef into    */
+    /*  the code file, but that is emitted after "#include ...tab.h" and so is */
+    /*  too late for the class definition.                                     */
+    if (!unionized && ntags == 0)
+	fprintf(defines_file, "#ifndef YYSTYPE\ntypedef int YYSTYPE;\n#endif\n");
 
     fprintf(defines_file,"                                \n"                 );
     fprintf(defines_file,"class %s                        \n", file_prefix    );
