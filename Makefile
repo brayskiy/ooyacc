@@ -68,6 +68,11 @@ install: directories program
 	@echo Installing $(PROGRAM) in $(INSTALL_DIR)
 	@install -s ${BIN_DIR}/${PROGRAM} $(INSTALL_DIR)
 
+test: directories program
+	@bash tests/run_tests.sh
+
+.PHONY: all program directories clean install test
+
 ###
 $(OBJ_DIR)/closure.o:  ${SRC_DIR}/closure.cpp
 	$(LINKER) $(LDFLAGS) -c ${SRC_DIR}/closure.cpp  $(CFLAGS) -o $@
