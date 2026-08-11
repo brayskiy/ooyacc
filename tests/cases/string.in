@@ -1,0 +1,7 @@
+"foo" . "bar"
+"Hello, " . "World"
+upper("hello")
+lower("WORLD")
+upper("abc" . "def")
+#"hello"
+#("foo" . "bars")

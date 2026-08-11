@@ -1,0 +1,41 @@
+name: CI
+
+# Rule 2:
+#   - On pull requests targeting the default branch, tests run against the
+#     work branch (merged with the base) so a PR cannot be merged red.
+#   - On push to the default branch (i.e. after a merge), tests run again to
+#     confirm the branch is green post-merge.
+#
+# Rule 1 (default branch is updated through PRs only, and only when this
+# workflow is green) is enforced by branch protection, not by this file.
+# See .github/setup-branch-protection.sh.
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Show toolchain versions
+        run: |
+          g++ --version
+          make --version
+
+      - name: Build ooyacc
+        run: make directories program
+
+      - name: Run test suite
+        run: make test

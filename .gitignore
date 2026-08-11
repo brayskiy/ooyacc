@@ -32,3 +32,6 @@
 *.app
 
 ooyacc
+
+# Test harness build artifacts
+tests/build/
