@@ -128,7 +128,7 @@ diffs stdout against a golden file. See [`tests/README.md`](tests/README.md).
 CI runs the test suite on every pull request (validating the work branch) and
 on every push to the default branch (validating post-merge). The default
 branch accepts changes through pull requests only, and a PR merges only when
-CI is green. See [`.github/README.md`](.github/README.md).
+CI is green. See [`.github/ci-and-branch-policy.md`](.github/ci-and-branch-policy.md).
 
 ## License
 
