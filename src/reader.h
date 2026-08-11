@@ -7,10 +7,12 @@ class Reader
 public:
 
     Reader() :
-        tagmax(0), 
+        tagmax(0),
         tag_table(0),
         saw_eof(0),
-        prec(0)
+        prec(0),
+        gensym(0),
+        last_was_action(0)
     { }
 
     ~Reader() {}
