@@ -46,6 +46,7 @@ stdout, which is why one driver serves them all.
 | `mixed`   | everything at once: decimal/float/scientific/hex/binary/octal literals, one- and two-arg functions, variables, nested parentheses, full precedence |
 | `bases`   | `long`-typed `%union`, integer literals in several bases, C bitwise/shift operators and precedence, unary `~`/`-`, two-char operator lexing |
 | `errors`  | negative literals/results, `error`-token recovery (a bad line reports `error` and parsing resumes), graceful semantic errors (division by zero), parser-state flag |
+| `integral`| user-defined functions (`def f(x) = ...`) and 3-point Gauss-Legendre integration; AST-valued `%union` with recursive interpretation, `std::map` of user functions as parser state, user functions calling user functions |
 
 ## Adding a case
 
