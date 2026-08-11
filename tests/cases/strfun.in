@@ -1,0 +1,18 @@
+s = "Hello, World";
+print s;
+len(s);
+upper(s);
+lower(s);
+substr(s, 0, 5);
+substr(s, 7, 5);
+find(s, "World");
+find(s, "xyz");
+replace(s, "l", "L");
+reverse("abcdef");
+repeat("ab", 3);
+charat(s, 1);
+"foo" + "bar";
+"count=" + 42;
+upper(substr(s, 7, 5));
+len(reverse("hello"));
+substr("programming", 3, 4);

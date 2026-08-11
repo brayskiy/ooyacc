@@ -50,6 +50,8 @@ stdout, which is why one driver serves them all.
 | `trig`    | trigonometric / inverse / hyperbolic builtins (sin cos tan asin acos atan sinh cosh tanh), two-arg `atan2`, `pi`/`e` constants, and well-known values and identities |
 | `array`   | array creation/indexing/mutation, reductions (len/sum/avg/max/min/prod), `print`; `%union` carrying a `std::vector<double>*` built by a left-recursive list rule, arrays kept in a `std::map`, `a[i]` as both lvalue and rvalue |
 | `control` | a small imperative language: `while`, `for`, `if`/`elseif`/`else`, `case`/`when`, `func` definitions with recursion and local scope; statement+expression AST interpreted after parse, multi-type pointer `%union`, list-building rules, elseif desugaring, comments (`#`) |
+| `ndarray` | 2D and 3D arrays: nested literals, multi-level indexing `m[i][j][k]`, element mutation, per-level `len`, recursive `sum`, nested pretty-print; recursive Value type, index-chain rule usable as lvalue and rvalue |
+| `strfun`  | string functions: `len upper lower substr find replace reverse repeat charat` and `+` concatenation; string-or-number values, variadic builtins dispatched by name in one call rule |
 
 ## Adding a case
 
