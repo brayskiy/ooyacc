@@ -49,6 +49,7 @@ stdout, which is why one driver serves them all.
 | `intgauss3`| user-defined functions (`def f(x) = ...`) and 3-point Gauss-Legendre integration; AST-valued `%union` with recursive interpretation, `std::map` of user functions as parser state, user functions calling user functions |
 | `trig`    | trigonometric / inverse / hyperbolic builtins (sin cos tan asin acos atan sinh cosh tanh), two-arg `atan2`, `pi`/`e` constants, and well-known values and identities |
 | `array`   | array creation/indexing/mutation, reductions (len/sum/avg/max/min/prod), `print`; `%union` carrying a `std::vector<double>*` built by a left-recursive list rule, arrays kept in a `std::map`, `a[i]` as both lvalue and rvalue |
+| `control` | a small imperative language: `while`, `for`, `if`/`elseif`/`else`, `case`/`when`, `func` definitions with recursion and local scope; statement+expression AST interpreted after parse, multi-type pointer `%union`, list-building rules, elseif desugaring, comments (`#`) |
 
 ## Adding a case
 

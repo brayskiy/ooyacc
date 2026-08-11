@@ -1,0 +1,55 @@
+# while loop: sum 1..5
+s = 0;
+i = 1;
+while (i <= 5) { s = s + i; i = i + 1; }
+print s;
+
+# for loop: factorial 5
+f = 1;
+for (k = 1; k <= 5; k = k + 1) { f = f * k; }
+print f;
+
+# nested for: sum of i*j for i,j in 1..3
+t = 0;
+for (i = 1; i <= 3; i = i + 1) {
+  for (j = 1; j <= 3; j = j + 1) {
+    t = t + i * j;
+  }
+}
+print t;
+
+# if / elseif / else
+x = 2;
+if (x == 1) { print 10; } elseif (x == 2) { print 20; } else { print 30; }
+x = 7;
+if (x == 1) { print 10; } elseif (x == 2) { print 20; } else { print 30; }
+
+# logical AND in a condition
+x = 5;
+if (x > 0 && x < 10) { print 1; } else { print 0; }
+
+# case / when
+y = 3;
+case (y) { when 1: print 100; when 2: print 200; when 3: print 300; else: print 0; }
+y = 9;
+case (y) { when 1: print 100; when 2: print 200; when 3: print 300; else: print 0; }
+
+# function definition and call
+func add(a, b) { return a + b; }
+print add(3, 4);
+
+# recursion
+func fact(n) { if (n <= 1) { return 1; } return n * fact(n - 1); }
+print fact(5);
+
+# if/else inside a function
+func max2(a, b) { if (a > b) { return a; } else { return b; } }
+print max2(10, 7);
+
+# function with a side effect and no return value
+func greet() { print 42; }
+greet();
+
+# function containing a loop (local scope)
+func sumto(n) { s = 0; i = 1; while (i <= n) { s = s + i; i = i + 1; } return s; }
+print sumto(10);
