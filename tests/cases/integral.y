@@ -3,7 +3,7 @@
  * by the 3-point Gauss-Legendre method.
  *
  *   def f(x) = <expr>;        define a user function of one variable
- *   integrate(f, a, b);       integral of f over [a, b] (3-point Gauss)
+ *   intgauss3(f, a, b);       integral of f over [a, b] (3-point Gauss)
  *   <expr>;                   evaluate and print
  *
  * Expressions may call builtins (sqrt sin cos exp log abs) and user
@@ -76,7 +76,7 @@ static char* dupstr(const char* s)
 %token <num>  NUMBER
 %token <name> NAME
 %token <fn>   FUNC
-%token        DEF INTEGRATE
+%token        DEF INTGAUSS3
 %type  <node> expr
 
 %left  '+' '-'
@@ -108,7 +108,7 @@ expr
     | NAME                                { $$ = mkVar($1);  free($1); }
     | NAME '(' expr ')'                   { $$ = mkUCall($1, $3); free($1); }
     | FUNC '(' expr ')'                   { $$ = mkCall($1, $3); }
-    | INTEGRATE '(' NAME ',' expr ',' expr ')'
+    | INTGAUSS3 '(' NAME ',' expr ',' expr ')'
         {
             double a = eval($5, "", 0.0);
             double b = eval($7, "", 0.0);
@@ -208,7 +208,7 @@ int yylex()
         if (c != EOF) ungetc(c, stdin);
 
         if (strcmp(buf, "def") == 0)       return DEF;
-        if (strcmp(buf, "integrate") == 0) return INTEGRATE;
+        if (strcmp(buf, "intgauss3") == 0) return INTGAUSS3;
 
         static const struct { const char* n; Fn1 f; } builtins[] = {
             {"sqrt", b_sqrt}, {"sin", b_sin}, {"cos", b_cos},
