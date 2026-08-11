@@ -45,6 +45,7 @@ stdout, which is why one driver serves them all.
 | `func`    | three-tag `%union` (double / function pointer / char*), `std::map` parser state, assignment, function calls |
 | `mixed`   | everything at once: decimal/float/scientific/hex/binary/octal literals, one- and two-arg functions, variables, nested parentheses, full precedence |
 | `bases`   | `long`-typed `%union`, integer literals in several bases, C bitwise/shift operators and precedence, unary `~`/`-`, two-char operator lexing |
+| `errors`  | negative literals/results, `error`-token recovery (a bad line reports `error` and parsing resumes), graceful semantic errors (division by zero), parser-state flag |
 
 ## Adding a case
 
