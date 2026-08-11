@@ -43,6 +43,8 @@ stdout, which is why one driver serves them all.
 | `complex` | `%union` with a struct member, multiple tags (`<dval>`/`<cval>`), struct-valued `$$`/`$n` |
 | `string`  | `%union` mixing `char*` and `int`, heap allocation in actions, keyword lexing |
 | `func`    | three-tag `%union` (double / function pointer / char*), `std::map` parser state, assignment, function calls |
+| `mixed`   | everything at once: decimal/float/scientific/hex/binary/octal literals, one- and two-arg functions, variables, nested parentheses, full precedence |
+| `bases`   | `long`-typed `%union`, integer literals in several bases, C bitwise/shift operators and precedence, unary `~`/`-`, two-char operator lexing |
 
 ## Adding a case
 
