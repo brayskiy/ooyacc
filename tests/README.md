@@ -52,6 +52,7 @@ stdout, which is why one driver serves them all.
 | `control` | a small imperative language: `while`, `for`, `if`/`elseif`/`else`, `case`/`when`, `func` definitions with recursion and local scope; statement+expression AST interpreted after parse, multi-type pointer `%union`, list-building rules, elseif desugaring, comments (`#`) |
 | `ndarray` | 2D and 3D arrays: nested literals, multi-level indexing `m[i][j][k]`, element mutation, per-level `len`, recursive `sum`, nested pretty-print; recursive Value type, index-chain rule usable as lvalue and rvalue |
 | `strfun`  | string functions: `len upper lower substr find replace reverse repeat charat` and `+` concatenation; string-or-number values, variadic builtins dispatched by name in one call rule |
+| `bool`    | comparison operators (`< > <= >= == !=`) and boolean logic (`&& \|\| !`, `and`/`or`/`not`), `true`/`false`; boolean-or-number value in a by-value `%union`, precedence across logic/comparison/arithmetic, booleans print `true`/`false` |
 
 ## Adding a case
 
